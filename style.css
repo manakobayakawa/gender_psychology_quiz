@@ -1,0 +1,210 @@
+:root {
+    --bg-color: #fdf6e3;
+    --text-color: #586e75;
+    --accent-color-male: #268bd2;
+    --accent-color-female: #d33682;
+    --correct-color: #859900;
+    --incorrect-color: #dc322f;
+    --base-font-size: 16px;
+    --font-family: 'Noto Sans JP', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-size: var(--base-font-size);
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 2em;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.screen {
+    display: none;
+}
+
+.screen.active {
+    display: block;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+    font-size: 2.2rem;
+    margin-bottom: 0.5em;
+    line-height: 1.4;
+}
+
+.description {
+    font-size: 1.1rem;
+    margin-bottom: 2em;
+}
+
+.start-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.start-btn {
+    padding: 1em;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #fff;
+    border-bottom: 4px solid rgba(0,0,0,0.2);
+}
+
+.start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.start-btn:active {
+    transform: translateY(1px);
+    border-bottom-width: 2px;
+}
+
+.start-btn[data-quiz="male"] { background-color: var(--accent-color-male); }
+.start-btn[data-quiz="female"] { background-color: var(--accent-color-female); }
+
+#retry-btn { background-color: #6c757d; }
+
+/* クイズ画面 */
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5em;
+    font-weight: bold;
+}
+#quiz-title { font-size: 1.2rem; }
+#progress { font-size: 1rem; }
+
+#question-container {
+    background-color: #f9f9f9;
+    padding: 1.5em;
+    border-radius: 12px;
+    margin-bottom: 2em;
+}
+
+#question-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 0.5em 0;
+}
+#question-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+#answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+}
+
+.answer-btn {
+    width: 100%;
+    padding: 1em;
+    font-size: 1rem;
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+.answer-btn:not(:disabled):hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+.answer-btn.correct {
+    background-color: var(--correct-color);
+    color: white;
+    border-color: var(--correct-color);
+    font-weight: bold;
+}
+.answer-btn.incorrect {
+    background-color: var(--incorrect-color);
+    color: white;
+    border-color: var(--incorrect-color);
+}
+.answer-btn:disabled {
+    cursor: default;
+    opacity: 0.7;
+}
+
+/* 解説エリア */
+.hidden { display: none !important; }
+
+#explanation-container {
+    margin-top: 2em;
+    padding: 1.5em;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    text-align: left;
+    animation: fadeIn 0.5s;
+}
+#explanation-result {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 0.5em 0;
+}
+#explanation-result.correct { color: var(--correct-color); }
+#explanation-result.incorrect { color: var(--incorrect-color); }
+#explanation-text {
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* 結果画面 */
+.result-title { font-size: 1.8rem; }
+.score-text { font-size: 1.2rem; margin-bottom: 0; }
+.score-value {
+    font-size: 5rem;
+    font-weight: bold;
+    margin: 0.2em 0;
+}
+#result-message {
+    padding: 1.5em;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    margin: 2em 0;
+}
+.result-rank {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0 0 0.5em 0;
+}
+.result-advice {
+    font-size: 1rem;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 600px) {
+    body { font-size: 14px; }
+    .container { padding: 1.5em; }
+    .title { font-size: 1.8rem; }
+}
