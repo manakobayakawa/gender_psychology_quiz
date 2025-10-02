@@ -3,50 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>男心と女心 心理クイズ</title>
+    <title>Tokyo Love Scenarios</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
+    <div class="game-container">
         <div id="start-screen" class="screen active">
-            <h1 class="title">男心と女心<br>心理クイズ</h1>
-            <p class="description">あなたはどちらの心理を理解してる？</p>
-            <div class="start-buttons">
-                <button class="start-btn" data-quiz="male">男心に挑戦！</button>
-                <button class="start-btn" data-quiz="female">女心に挑戦！</button>
+            <h1 class="title">Tokyo Love Scenarios</h1>
+            <p class="description">あなたの選択が、二人の未来を変える。</p>
+            
+            <div id="setup-form">
+                <div class="input-group">
+                    <label for="player-name">あなたの名前</label>
+                    <input type="text" id="player-name" placeholder="名前を入力">
+                </div>
+                
+                <div class="input-group">
+                    <label>相手の名前</label>
+                    <input type="text" id="target-name" placeholder="相手の名前を入力">
+                </div>
+
+                <div class="input-group">
+                    <label>相手の性別</label>
+                    <div class="gender-selector">
+                        <div class="gender-option" data-gender="male">男性</div>
+                        <div class="gender-option" data-gender="female">女性</div>
+                    </div>
+                </div>
+
+                <button id="start-game-btn" class="start-btn">ストーリーを始める</button>
+                <p id="error-message" class="error-message"></p>
             </div>
         </div>
 
-        <div id="quiz-screen" class="screen">
-            <div class="quiz-header">
-                <p id="quiz-title"></p>
-                <p id="progress"></p>
-            </div>
-            <div id="question-container">
-                <p id="question-number"></p>
-                <p id="question-text"></p>
-            </div>
-            <div id="answers-container">
+        <div id="game-screen" class="screen">
+            <div class="status-bar">
+                <span id="character-name"></span>
+                <div class="heart-meter">
+                    <span>好感度 ❤️</span>
+                    <span id="love-meter-value">50</span>
                 </div>
-            <div id="explanation-container" class="hidden">
-                <p id="explanation-result"></p>
-                <p id="explanation-text"></p>
             </div>
+            <div class="scenario-image" id="scenario-image"></div>
+            <div class="message-window">
+                <p id="scenario-text"></p>
+            </div>
+            <div id="choices-container"></div>
         </div>
 
         <div id="result-screen" class="screen">
-            <h2 class="result-title">結果発表</h2>
-            <p class="score-text">あなたのスコアは...</p>
-            <p id="score" class="score-value">0</p>
-            <div id="result-message">
-                <p id="result-rank" class="result-rank"></p>
-                <p id="result-advice" class="result-advice"></p>
-            </div>
-            <button id="retry-btn" class="start-btn">もう一度挑戦する</button>
+            <h2 id="ending-title" class="ending-title"></h2>
+            <div id="ending-image" class="ending-image"></div>
+            <p id="ending-description" class="ending-description"></p>
+            <button id="retry-btn" class="start-btn">もう一度最初から</button>
         </div>
     </div>
 
