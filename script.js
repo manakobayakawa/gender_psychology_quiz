@@ -1,161 +1,181 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // クイズデータ
-    const quizzes = {
-        male: [
-            { question: "デートの別れ際に彼が「じゃあ、また」とだけ言った。彼の本心は？", answers: ["今日のデートは微妙だった", "次の約束を急かしたくない", "特に深い意味はない"], correct: "特に深い意味はない", explanation: "男性の「またね」には深い意味がないことがほとんど。言葉通りに受け取るのが◎。考えすぎは禁物です。" },
-            { question: "あなたが髪を切ったのに、彼は何も言ってこない。なぜ？", answers: ["似合ってないと思っている", "興味がない", "本当に気づいていない"], correct: "本当に気づいていない", explanation: "多くの男性は女性の細かい変化に気づきにくい傾向が。悪気はないので、自分から「髪切ったんだ！」と言ってみるのがおすすめです。" },
-            { question: "彼が自分の趣味の話を延々と続けている。どう思ってる？", answers: ["退屈だと思われている", "自分のことをもっと知ってほしい", "あなたを試している"], correct: "自分のことをもっと知ってほしい", explanation: "男性は信頼している相手に自分の好きなことや得意なことを話したい生き物。あなたに心を開いている証拠です。" },
-            { question: "彼からのLINEの返信が急に遅くなった。考えられる理由は？", answers: ["他に気になる人ができた", "仕事などが忙しくなった", "あなたへの気持ちが冷めた"], correct: "仕事などが忙しくなった", explanation: "男性の脳はシングルタスクと言われがち。仕事や趣味に集中すると、他のことがおろそかになることがあります。少し待ってみましょう。" },
-            { question: "あなたが落ち込んでいる時、彼が具体的なアドバイスをしてくる。なぜ？", answers: ["共感能力が低い", "早く問題を解決してあげたい", "自分の知識を披露したい"], correct: "早く問題を解決してあげたい", explanation: "男性は共感よりも問題解決を優先する傾向があります。それは彼の優しさの表現。ただ話を聞いてほしい時は、先に伝えてみて。" },
-            { question: "グループでいる時と二人きりの時で、彼の態度が違う。なぜ？", answers: ["二人きりの時の態度が本物", "八方美人なだけ", "あなたを騙している"], correct: "二人きりの時の態度が本物", explanation: "男性はプライドや見栄から、人前ではクールに振る舞うことがあります。二人きりの時の甘えた態度こそが、彼の本当の姿です。" },
-            { question: "彼が「疲れた」と言う時、どうしてほしい？", answers: ["詳しい話を聞いてほしい", "具体的なアドバイスがほしい", "ただ黙って癒やしてほしい"], correct: "ただ黙って癒やしてほしい", explanation: "男性が「疲れた」と言う時は、解決策よりも安らぎを求めていることが多いです。「お疲れ様」と優しく声をかけるだけで十分です。" },
-            { question: "喧嘩した時、彼が急に黙り込んでしまった。なぜ？", answers: ["言うべき言葉を探している", "反省していない", "もう話したくない"], correct: "言うべき言葉を探している", explanation: "感情的になると口を閉ざす男性は多いです。頭の中で冷静に考えを整理しようとしている時間なので、少し待ってあげるのが吉。" },
-            { question: "彼が小さな成功を自慢げに話してくる。どう対応するのが正解？", answers: ["「すごいね！」と褒める", "もっと大きな目標を持つよう促す", "謙虚になるように言う"], correct: "「すごいね！」と褒める", explanation: "男性は好きな人に認められたい、尊敬されたいという気持ちが強いです。子供のように褒めてあげると、彼はとても喜びます。" },
-            { question: "デート中、彼があまり話さない。どうして？", answers: ["退屈している", "あなたとの時間に満足している", "何か怒っている"], correct: "あなたとの時間に満足している", explanation: "男性はリラックスできる相手とは、無言の時間も心地よいと感じます。彼が穏やかな表情なら、安心してその時間を楽しんでください。" }
+    // --- ゲームデータ ---
+    // {{target}} は相手の名前に、{{he_she}}などは性別に合わせて「彼」「彼女」に自動で置き換わります。
+    const scenarios = {
+        maleTargetStory: [
+            { id: 0, image: "https://images.unsplash.com/photo-1517486808906-6538cb3b81ee?q=80&w=2070", text: "共通の友人の紹介で知り合った{{target}}。{{he_she}}とは時々メッセージをやりとりする仲だ。ある週末、{{target}}から突然LINEが届く。「今、渋谷で友達と飲んでるんだけど、よかったら合流しない？」", choices: [
+                { text: "「楽しそう！今から準備していくね！」", effect: 15, next: 1 },
+                { text: "「今日はちょっと疲れてるから、また今度誘って！」", effect: -5, next: 2 },
+                { text: "「誰がいるの？メンバーによるかな（笑）」", effect: 5, next: 1 }
+            ]},
+            { id: 1, image: "https://images.unsplash.com/photo-1534043464124-3be32fe000c9?q=80&w=2070", text: "合流した飲み会は盛り上がった。帰り道、{{target}}と二人きりになるチャンスが。何を話す？", choices: [
+                { text: "「今日の飲み会、すごく楽しかったね！」", effect: 10, next: 3 },
+                { text: "「〇〇くん（共通の友人）って面白いよね」", effect: 5, next: 3 },
+                { text: "黙って、{{his_her}}の隣を歩く", effect: -5, next: 3 }
+            ]},
+            { id: 2, image: "https://images.unsplash.com/photo-1577823297195-21db3a9e3391?q=80&w=2070", text: "断りのLINEを送った後、{{target}}から「そっか、残念！またね！」と返信が。この後どうする？", choices: [
+                { text: "「またぜひ誘って！」と返信する", effect: 10, next: 3 },
+                { text: "そのまま既読スルーする", effect: -15, next: 3 },
+                { text: "翌日、「昨日はごめんね」と追いLINEする", effect: 5, next: 3 }
+            ]},
+            { id: 3, image: "https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070", text: "後日、{{target}}が仕事でミスをして落ち込んでいると聞いた。あなたなら何と声をかける？", choices: [
+                { text: "「大変だったね。私でよかったら話聞くよ」", effect: 20, next: 4 },
+                { text: "「そんな時もあるよ！元気出して！」", effect: 5, next: 4 },
+                { text: "具体的な解決策を長文LINEで送る", effect: -10, next: 4 }
+            ]},
+            { id: 4, image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070", text: "{{target}}から「今週末、空いてる？」とLINEが来た。初めて二人きりで会うチャンス！どこに行きたいと提案する？", choices: [
+                { text: "「おしゃれなカフェでのんびり話したいな」", effect: 10, next: 5 },
+                { text: "「{{target}}くんの好きなところがいいな」", effect: 15, next: 5 },
+                { text: "「話題の映画が観たい！」", effect: 5, next: 5 }
+            ]},
+            { id: 5, text: "（最終章）二人きりのデートは順調に進んだ。別れ際、{{he_she}}が少し真剣な顔でこちらを見ている。あなたはどうする？", image: "https://images.unsplash.com/photo-1516900557549-41557d405439?q=80&w=1974", choices: [
+                { text: "{{his_her}}の言葉を待つ", effect: 20, next: 'end' },
+                { text: "「今日はありがとう！」と笑顔で先に言う", effect: 5, next: 'end' },
+                { text: "恥ずかしくて、少し目をそらす", effect: -5, next: 'end' }
+            ]}
         ],
-        female: [
-            { question: "彼女が「なんでもない」と言っている。本当はどういう意味？", answers: ["本当に何でもない", "私の気持ちに気づいてほしい", "そっとしておいてほしい"], correct: "私の気持ちに気づいてほしい", explanation: "女性の「なんでもない」は「何かあるけど、あなたから優しく聞いてほしい」のサインであることが多いです。「どうしたの？」ともう一押しが大切です。" },
-            { question: "デートプランを尋ねたら「なんでもいいよ」と返ってきた。本音は？", answers: ["本当に興味がない", "あなたのセンスを信頼している", "私の好きそうな所を提案してほしい"], correct: "私の好きそうな所を提案してほしい", explanation: "「あなたに決めてほしいけど、私の好みを理解した上で素敵な提案をしてほしい」という、少し高度な期待が込められています。" },
-            { question: "彼女が急に無口になった。考えられる理由は？", answers: ["体調が悪い", "あなたの何気ない一言に傷ついた", "ただ疲れている"], correct: "あなたの何気ない一言に傷ついた", explanation: "女性は言葉の些細なニュアンスに敏感です。何か原因になるような発言がなかったか、そっと振り返ってみましょう。" },
-            { question: "「私のこと、本当に好き？」と聞かれた時のベストな返答は？", answers: ["当たり前だよ", "好きだよ。〇〇なところとかね", "どうしてそんなこと聞くの？"], correct: "好きだよ。〇〇なところとかね", explanation: "ただ「好き」と返すだけでなく、具体的にどこが好きなのかを伝えることで、彼女は安心し、愛情を実感します。" },
-            { question: "彼女が「あの子、可愛いよね」と言ってきた。どういう意図？", answers: ["純粋な感想", "あなたの反応を見ている", "友達になりたい"], correct: "あなたの反応を見ている", explanation: "あなたの好みを探ったり、嫉妬心からあなたの愛情を試している可能性があります。「君が一番可愛いよ」が模範解答です。" },
-            { question: "彼女が「疲れた」と言う時、どうしてほしい？", answers: ["マッサージをしてあげる", "解決策を提案する", "「大変だったね」と共感する"], correct: "「大変だったね」と共感する", explanation: "女性が求めるのは、まず共感です。具体的な解決策よりも先に、彼女の気持ちに寄り添う言葉をかけてあげましょう。" },
-            { question: "プレゼントに何が欲しいか聞いたら「気持ちだけで嬉しいよ」と言われた。信じていい？", answers: ["本当に何もいらない", "信じてはいけない", "サプライズを期待している"], correct: "サプライズを期待している", explanation: "本音ではプレゼントを期待していることが多いです。彼女の普段の言動や好みをリサーチして、素敵なサプライズを用意しましょう。" },
-            { question: "デート中、彼女が頻繁にスマホを触っている。なぜ？", answers: ["デートがつまらない", "あなたとの写真を撮りたい・見返したい", "緊急の連絡がきている"], correct: "あなたとの写真を撮りたい・見返したい", explanation: "一見ネガティブに見えますが、楽しさのあまりSNSに投稿したり、今日の思い出を記録しているポジティブな理由の場合も多いです。" },
-            { question: "彼女が昔の恋愛話を始めた。どういう心理？", answers: ["元カレが忘れられない", "あなたの過去の恋愛も知りたい", "もっと自分を理解してほしい"], correct: "もっと自分を理解してほしい", explanation: "過去の経験を話すことで、自分の恋愛観や価値観をあなたに伝え、より深い関係を築きたいと思っています。" },
-            { question: "「痩せたいなー」と彼女が言っている。どう返すべき？", answers: ["「今のままで十分可愛いよ」", "「一緒に運動する？」", "「確かに少し太ったかもね」"], correct: "「今のままで十分可愛いよ」", explanation: "彼女が求めているのは、痩せる方法ではなく「今のあなたを肯定してほしい」という承認欲求です。まずは全肯定してあげましょう。" }
+        femaleTargetStory: [
+            // 女性をターゲットにしたストーリーも同様に作成できます
+            { id: 0, text: "（女性ターゲット用のシナリオ1）{{target}}は元気かな？", image: "https://images.unsplash.com/photo-1517486808906-6538cb3b81ee?q=80&w=2070", choices: [
+                { text: "選択肢A", effect: 10, next: 'end' },
+                { text: "選択肢B", effect: -5, next: 'end' }
+            ]}
         ]
     };
-
-    // DOM要素
-    const screens = {
-        start: document.getElementById('start-screen'),
-        quiz: document.getElementById('quiz-screen'),
-        result: document.getElementById('result-screen')
+    const endings = {
+        trueLove: { title: "True Love Ending", description: "{{his_her}}の真剣な眼差しに応えたあなた。{{target}}の口から出たのは、ずっと聞きたかった言葉だった。二人の物語は、ここから始まる。", image: "https://images.unsplash.com/photo-1502790671504-44a34115432a?q=80&w=1964" },
+        goodFriends: { title: "Good Friends Ending", description: "楽しい時間を過ごした二人。恋人というには、まだ少し早いのかもしれない。でも、これからも良き友人として、{{target}}の隣にいられそうだ。", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1932" },
+        justAcquaintances: { title: "Just Acquaintances Ending", description: "お互いに少し壁があるようだ。{{target}}との距離は、縮まることなく今日を終えた。またどこかで会うことがあれば、その時は...。", image: "https://images.unsplash.com/photo-1604786283220-37053550393e?q=80&w=1974" }
     };
 
-    const startButtons = document.querySelectorAll('.start-btn');
-    const quizTitleEl = document.getElementById('quiz-title');
-    const progressEl = document.getElementById('progress');
-    const questionNumberEl = document.getElementById('question-number');
-    const questionTextEl = document.getElementById('question-text');
-    const answersContainer = document.getElementById('answers-container');
-    const explanationContainer = document.getElementById('explanation-container');
-    const explanationResultEl = document.getElementById('explanation-result');
-    const explanationTextEl = document.getElementById('explanation-text');
-    const scoreEl = document.getElementById('score');
-    const resultRankEl = document.getElementById('result-rank');
-    const resultAdviceEl = document.getElementById('result-advice');
+    // --- DOM要素 ---
+    const screens = { start: document.getElementById('start-screen'), game: document.getElementById('game-screen'), result: document.getElementById('result-screen') };
+    const playerNameInput = document.getElementById('player-name');
+    const targetNameInput = document.getElementById('target-name');
+    const genderOptions = document.querySelectorAll('.gender-option');
+    const startGameBtn = document.getElementById('start-game-btn');
+    const errorMessageEl = document.getElementById('error-message');
+    const characterNameEl = document.getElementById('character-name');
+    const loveMeterValueEl = document.getElementById('love-meter-value');
+    const scenarioImageEl = document.getElementById('scenario-image');
+    const scenarioTextEl = document.getElementById('scenario-text');
+    const choicesContainer = document.getElementById('choices-container');
+    const endingTitleEl = document.getElementById('ending-title');
+    const endingImageEl = document.getElementById('ending-image');
+    const endingDescriptionEl = document.getElementById('ending-description');
     const retryBtn = document.getElementById('retry-btn');
 
-    // クイズの状態
-    let currentQuizType = '';
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let currentQuestions = [];
-
-    // イベントリスナー
-    startButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            currentQuizType = button.dataset.quiz;
-            if(currentQuizType){
-                startQuiz();
-            }
+    // --- ゲームの状態 ---
+    let player = { name: '' };
+    let target = { name: '', gender: '' };
+    let currentStory = [];
+    let loveMeter = 50;
+    
+    // --- イベントリスナー ---
+    genderOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            genderOptions.forEach(o => o.classList.remove('selected'));
+            option.classList.add('selected');
+            target.gender = option.dataset.gender;
         });
+    });
+
+    startGameBtn.addEventListener('click', () => {
+        player.name = playerNameInput.value.trim();
+        target.name = targetNameInput.value.trim();
+        
+        if (!player.name || !target.name || !target.gender) {
+            errorMessageEl.textContent = 'すべての項目を入力してください。';
+            return;
+        }
+        errorMessageEl.textContent = '';
+        startGame();
     });
 
     retryBtn.addEventListener('click', () => {
+        // 入力フォームをリセット
+        playerNameInput.value = '';
+        targetNameInput.value = '';
+        genderOptions.forEach(o => o.classList.remove('selected'));
         showScreen('start');
     });
 
+    // --- ゲームロジック ---
     function showScreen(screenName) {
-        for (const key in screens) {
-            screens[key].classList.remove('active');
-        }
+        Object.values(screens).forEach(screen => screen.classList.remove('active'));
         screens[screenName].classList.add('active');
     }
 
-    function startQuiz() {
-        currentQuestions = quizzes[currentQuizType];
-        currentQuestionIndex = 0;
-        score = 0;
-        quizTitleEl.textContent = currentQuizType === 'male' ? '男心クイズ' : '女心クイズ';
-        quizTitleEl.style.color = currentQuizType === 'male' ? 'var(--accent-color-male)' : 'var(--accent-color-female)';
-        showScreen('quiz');
-        loadQuestion();
+    // テキスト内のプレースホルダーを実際の情報に置き換える関数
+    function processText(text) {
+        let processedText = text.replace(/{{player}}/g, player.name).replace(/{{target}}/g, target.name);
+        if (target.gender === 'male') {
+            processedText = processedText.replace(/{{he_she}}/g, '彼').replace(/{{him_her}}/g, '彼').replace(/{{his_her}}/g, '彼');
+        } else {
+            processedText = processedText.replace(/{{he_she}}/g, '彼女').replace(/{{him_her}}/g, '彼女').replace(/{{his_her}}/g, '彼女');
+        }
+        return processedText;
     }
 
-    function loadQuestion() {
-        explanationContainer.classList.add('hidden');
-        answersContainer.innerHTML = '';
+    function startGame() {
+        currentStory = target.gender === 'male' ? scenarios.maleTargetStory : scenarios.femaleTargetStory;
         
-        if (currentQuestionIndex < currentQuestions.length) {
-            const question = currentQuestions[currentQuestionIndex];
-            progressEl.textContent = `${currentQuestionIndex + 1} / ${currentQuestions.length}`;
-            questionNumberEl.textContent = `Q${currentQuestionIndex + 1}`;
-            questionTextEl.textContent = question.question;
-
-            question.answers.forEach(answer => {
-                const button = document.createElement('button');
-                button.textContent = answer;
-                button.classList.add('answer-btn');
-                button.addEventListener('click', () => selectAnswer(button, question));
-                answersContainer.appendChild(button);
-            });
-        } else {
-            showResult();
+        // 女性ターゲットのシナリオが準備中ならアラート
+        if (currentStory.length <= 1) {
+            errorMessageEl.textContent = 'このストーリーは現在準備中です。';
+            return;
         }
+
+        characterNameEl.textContent = target.name;
+        loveMeter = 50;
+        updateLoveMeter();
+        loadScenario(0);
+        showScreen('game');
     }
 
-    function selectAnswer(selectedButton, question) {
-        const isCorrect = selectedButton.textContent === question.correct;
+    function loadScenario(id) {
+        const scenario = currentStory.find(s => s.id === id);
+        if (!scenario) return;
 
-        if (isCorrect) {
-            score += 10;
-            selectedButton.classList.add('correct');
-            explanationResultEl.textContent = '正解！';
-            explanationResultEl.className = 'correct';
-        } else {
-            selectedButton.classList.add('incorrect');
-            explanationResultEl.textContent = '不正解...';
-            explanationResultEl.className = 'incorrect';
-        }
-        
-        explanationTextEl.textContent = question.explanation;
-        explanationContainer.classList.remove('hidden');
+        scenarioImageEl.style.backgroundImage = `url(${scenario.image})`;
+        scenarioTextEl.textContent = processText(scenario.text);
+        choicesContainer.innerHTML = '';
 
-        // 他のボタンを無効化
-        document.querySelectorAll('.answer-btn').forEach(btn => {
-            btn.disabled = true;
-            if (btn.textContent === question.correct) {
-                if (!isCorrect) btn.classList.add('correct');
-            }
+        scenario.choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.textContent = processText(choice.text);
+            button.classList.add('choice-btn');
+            button.onclick = () => selectChoice(choice);
+            choicesContainer.appendChild(button);
         });
+    }
 
-        currentQuestionIndex++;
-        setTimeout(loadQuestion, 3000); // 3秒後に次の問題へ
+    function selectChoice(choice) {
+        loveMeter += choice.effect;
+        if (loveMeter > 100) loveMeter = 100;
+        if (loveMeter < 0) loveMeter = 0;
+        updateLoveMeter();
+
+        if (choice.next === 'end') {
+            showResult();
+        } else {
+            loadScenario(choice.next);
+        }
+    }
+
+    function updateLoveMeter() {
+        loveMeterValueEl.textContent = loveMeter;
     }
 
     function showResult() {
+        let ending;
+        if (loveMeter >= 80) ending = endings.trueLove;
+        else if (loveMeter >= 50) ending = endings.goodFriends;
+        else ending = endings.justAcquaintances;
+        
+        endingTitleEl.textContent = processText(ending.title);
+        endingImageEl.style.backgroundImage = `url(${ending.image})`;
+        endingDescriptionEl.textContent = processText(ending.description);
         showScreen('result');
-        scoreEl.textContent = score;
-
-        if(currentQuizType === 'male') scoreEl.style.color = 'var(--accent-color-male)';
-        else scoreEl.style.color = 'var(--accent-color-female)';
-
-
-        let rank, advice;
-        if (score >= 80) {
-            rank = "心のエキスパート";
-            advice = "素晴らしい！あなたは相手の心を的確に理解していますね。その深い洞察力で、これからも素敵な関係を築いていけるはずです。";
-        } else if (score >= 50) {
-            rank = "グッドコミュニケーター";
-            advice = "なかなかの理解度！基本的なことは分かっていますが、時々すれ違うことも。相手の言葉の裏にある「本当の気持ち」を想像すると、もっと仲が深まりますよ。";
-        } else {
-            rank = "のびしろたっぷり";
-            advice = "ちょっぴりすれ違いがあるかも？でも大丈夫、誰にでも間違いはあります。このクイズをきっかけに、相手の気持ちを優しく想像することから始めてみましょう！";
-        }
-        resultRankEl.textContent = rank;
-        resultAdviceEl.textContent = advice;
     }
 });
