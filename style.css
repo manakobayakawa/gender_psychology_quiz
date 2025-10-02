@@ -1,118 +1,70 @@
-:root {
-    --bg-color: #f4f4f5;
-    --text-color: #18181b;
-    --container-bg: #ffffff;
-    --accent-color: #2563eb;
-    --accent-color-female: #db2777;
-    --border-color: #e4e4e7;
-    --font-family: 'Noto Sans JP', sans-serif;
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tokyo Love Scenarios 2.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background-image"></div>
+    <div class="game-container">
+        <div id="start-screen" class="screen active">
+            <h1 class="title">Tokyo Love Scenarios</h1>
+            <p class="description">あなたの選択が、二人の未来を変える。</p>
+            <div id="setup-form">
+                <div class="input-group">
+                    <label for="player-name">あなたの名前</label>
+                    <input type="text" id="player-name" placeholder="例：ひかり">
+                </div>
+                <div class="input-group">
+                    <label for="target-name">相手の名前</label>
+                    <input type="text" id="target-name" placeholder="例：たくみ">
+                </div>
+                <div class="input-group">
+                    <label>相手の性別</label>
+                    <div class="gender-selector">
+                        <div class="gender-option" data-gender="male">男性</div>
+                        <div class="gender-option" data-gender="female">女性</div>
+                    </div>
+                </div>
+                <button id="start-game-btn" class="start-btn">ストーリーを始める</button>
+                <p id="error-message" class="error-message"></p>
+            </div>
+        </div>
 
-body {
-    margin: 0;
-    font-family: var(--font-family);
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 1em;
-    box-sizing: border-box;
-}
+        <div id="game-screen" class="screen">
+            <div class="status-bar">
+                <span id="character-name"></span>
+                <div class="meters">
+                    <div class="meter" id="love-meter">❤️ <span id="love-meter-value">50</span></div>
+                    <div class="meter" id="style-meter">⚡️ <span id="style-meter-value">0</span></div>
+                </div>
+            </div>
+            <div class="message-window">
+                <div class="message-header">
+                    <span id="scenario-emoji">💬</span>
+                    <span id="scenario-chapter"></span>
+                </div>
+                <p id="scenario-text"></p>
+            </div>
+            <div id="choices-container"></div>
+        </div>
 
-.game-container {
-    width: 100%;
-    max-width: 420px;
-    background-color: var(--container-bg);
-    border-radius: 24px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-    text-align: center;
-}
-
-.screen {
-    display: none;
-    padding: 2em;
-    animation: fadeIn 0.6s ease-in-out;
-}
-.screen.active { display: block; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- スタート画面 --- */
-.title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5em; }
-.description { font-size: 1rem; color: #71717a; margin-bottom: 2.5em; }
-
-#setup-form { display: flex; flex-direction: column; gap: 1.5em; }
-.input-group { text-align: left; }
-.input-group label { display: block; font-weight: bold; margin-bottom: 0.5em; font-size: 0.9rem; }
-.input-group input[type="text"] {
-    width: 100%;
-    padding: 0.8em 1em;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-}
-.gender-selector { display: flex; gap: 0.8em; }
-.gender-option {
-    flex-grow: 1;
-    padding: 0.8em;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s ease;
-}
-.gender-option.selected {
-    background-color: var(--accent-color);
-    color: white;
-    border-color: var(--accent-color);
-    font-weight: bold;
-}
-.gender-option[data-gender="female"].selected {
-    background-color: var(--accent-color-female);
-    border-color: var(--accent-color-female);
-}
-
-.start-btn {
-    padding: 1em;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: #fff;
-    background-color: #2dd4bf; /* Teal 400 */
-}
-.start-btn:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.error-message {
-    color: #ef4444; /* Red 500 */
-    font-size: 0.9rem;
-    height: 1em;
-    margin: 0;
-}
-
-/* --- ゲーム画面 & 結果画面 (変更なし) --- */
-.status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em; padding: 0 0.5em; font-weight: bold; }
-#character-name { font-size: 1.2rem; }
-.heart-meter { font-size: 1rem; background-color: #fee2e2; color: #ef4444; padding: 0.5em 1em; border-radius: 20px; }
-.scenario-image { width: 100%; height: 180px; background-color: var(--border-color); border-radius: 16px; margin-bottom: 1.5em; background-size: cover; background-position: center; transition: background-image 0.5s ease; }
-.message-window { background-color: #f4f4f5; padding: 1.5em; border-radius: 16px; text-align: left; margin-bottom: 1.5em; min-height: 80px; }
-#scenario-text { margin: 0; line-height: 1.7; font-size: 1rem; }
-#choices-container { display: flex; flex-direction: column; gap: 0.8em; }
-.choice-btn { width: 100%; padding: 1em; font-size: 1rem; background-color: #fff; border: 1px solid var(--border-color); border-radius: 12px; cursor: pointer; transition: all 0.2s ease; text-align: left; }
-.choice-btn:hover { background-color: var(--bg-color); border-color: #d4d4d8; transform: translateY(-2px); }
-.ending-title { font-size: 1.8rem; margin-bottom: 1em; }
-.ending-image { width: 100%; height: 200px; background-color: var(--border-color); border-radius: 16px; margin-bottom: 1.5em; background-size: cover; background-position: center; }
-.ending-description { font-size: 1rem; line-height: 1.7; margin-bottom: 2em; color: #71717a; }
-#retry-btn { background-color: #a1a1aa; }
+        <div id="result-screen" class="screen">
+            <span id="ending-emoji" class="ending-emoji"></span>
+            <h2 id="ending-title" class="ending-title"></h2>
+            <p id="ending-description" class="ending-description"></p>
+            <div class="final-advice">
+                <p class="advice-title">💌 あなたへの一言アドバイス</p>
+                <p id="advice-text"></p>
+            </div>
+            <button id="retry-btn" class="start-btn">もう一度最初から</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
