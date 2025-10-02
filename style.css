@@ -1,132 +1,113 @@
 :root {
-    --text-color: #f8fafc; /* Slate 50 */
-    --text-muted-color: #cbd5e1; /* Slate 300 */
-    --accent-color: #38bdf8; /* Sky 400 */
-    --accent-color-female: #f472b6; /* Pink 400 */
-    --font-family: 'Noto Sans JP', sans-serif;
+    --bg-dark: #111827; /* Gray 900 */
+    --container-dark: #1f2937; /* Gray 800 */
+    --text-light: #f9fafb; /* Gray 50 */
+    --text-muted: #9ca3af; /* Gray 400 */
+    --accent-male: #38bdf8; /* Sky 400 */
+    --accent-female: #f472b6; /* Pink 400 */
+    --font-family: 'M PLUS Rounded 1c', sans-serif;
     --border-radius: 20px;
 }
 
 body {
     margin: 0;
     font-family: var(--font-family);
-    color: var(--text-color);
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     padding: 1em;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
-.background-image {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* ↓好きな背景画像URLに差し替えてください */
-    background: url('https://images.unsplash.com/photo-1536532184021-da5392b55da1?q=80&w=2070') center/cover no-repeat;
-    filter: blur(8px) brightness(0.6);
-    transform: scale(1.1);
+.background-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at top left, var(--accent-male), transparent 40%),
+                radial-gradient(circle at bottom right, var(--accent-female), transparent 40%);
+    opacity: 0.1;
     z-index: -1;
 }
 
 .game-container {
     width: 100%;
     max-width: 420px;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
+    background-color: var(--container-dark);
     border-radius: var(--border-radius);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     overflow: hidden;
     text-align: center;
 }
 
-.screen {
-    display: none;
-    padding: 2.5em;
-    animation: fadeIn 0.6s ease-in-out;
-}
+.screen { display: none; padding: 2.5em; animation: fadeIn 0.5s ease-out; }
 .screen.active { display: block; }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- スタート画面 --- */
-.title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5em; }
-.description { font-size: 1rem; color: var(--text-muted-color); margin-bottom: 2.5em; }
+.title { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.5em; }
+.description { font-size: 1rem; color: var(--text-muted); margin-bottom: 2.5em; }
 
-#setup-form { display: flex; flex-direction: column; gap: 1.5em; }
+#setup-form { display: flex; flex-direction: column; gap: 1.2em; }
 .input-group { text-align: left; }
-.input-group label { display: block; font-weight: 500; margin-bottom: 0.5em; font-size: 0.9rem; color: var(--text-muted-color); }
+.input-group label { display: block; font-weight: 500; margin-bottom: 0.5em; font-size: 0.9rem; color: var(--text-muted); }
 .input-group input[type="text"] {
-    width: 100%;
-    padding: 0.8em 1em;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    background: rgba(255,255,255,0.1);
-    color: var(--text-color);
+    width: 100%; padding: 0.9em 1em; border: none; border-radius: 12px;
+    font-size: 1rem; box-sizing: border-box; background: var(--bg-dark); color: var(--text-light);
 }
-.input-group input::placeholder { color: rgba(255,255,255,0.4); }
 .gender-selector { display: flex; gap: 0.8em; }
 .gender-option {
-    flex-grow: 1;
-    padding: 0.8em;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.2s ease;
-    background: rgba(255,255,255,0.1);
+    flex-grow: 1; padding: 0.8em; border: 1px solid var(--bg-dark);
+    border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.2s ease;
+    background: var(--bg-dark);
 }
-.gender-option.selected { background-color: var(--accent-color); border-color: var(--accent-color); font-weight: bold; }
-.gender-option[data-gender="female"].selected { background-color: var(--accent-color-female); border-color: var(--accent-color-female); }
+.gender-option.selected {
+    background-color: var(--accent-male); border-color: var(--accent-male); font-weight: 500; color: #fff;
+}
+.gender-option[data-gender="female"].selected { background-color: var(--accent-female); border-color: var(--accent-female); }
 
 .start-btn {
-    padding: 1em; font-size: 1rem; font-weight: bold; border: none;
+    padding: 1.1em; font-size: 1.1rem; font-weight: 800; border: none;
     border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
-    color: #fff; background-color: var(--accent-color); margin-top: 1em;
+    color: #fff; background-color: var(--accent-male); margin-top: 1em;
 }
 .start-btn:hover { transform: scale(1.03); filter: brightness(1.1); }
 .error-message { color: #f87171; font-size: 0.9rem; height: 1em; margin: 0; }
 
 /* --- ゲーム画面 --- */
 .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5em; padding: 0 0.5em; }
-#character-name { font-size: 1.2rem; font-weight: 700; }
+#character-name { font-size: 1.2rem; font-weight: 800; }
 .meters { display: flex; gap: 1em; }
-.meter { font-size: 1rem; font-weight: 500; background: rgba(0,0,0,0.2); padding: 0.5em 1em; border-radius: 20px; }
+.meter { font-size: 1rem; font-weight: 500; background: var(--bg-dark); padding: 0.5em 1em; border-radius: 20px; }
 .message-window {
-    background: rgba(0,0,0,0.2); padding: 1.5em;
-    border-radius: var(--border-radius); text-align: left;
-    margin-bottom: 2em;
+    background: var(--bg-dark); padding: 1.5em; border-radius: var(--border-radius);
+    text-align: left; margin-bottom: 2em;
 }
-.message-header { display: flex; align-items: center; gap: 0.8em; margin-bottom: 1em; color: var(--text-muted-color); font-weight: 500; }
-#scenario-text { margin: 0; line-height: 1.8; font-size: 1rem; }
+.message-header { font-weight: 800; margin-bottom: 1em; color: var(--accent-male); }
+#scenario-text { margin: 0; line-height: 1.8; font-size: 1.05rem; }
 #choices-container { display: flex; flex-direction: column; gap: 0.8em; }
 .choice-btn {
-    width: 100%; padding: 1em; font-size: 0.95rem; text-align: left;
-    background: rgba(255,255,255,0.1); color: var(--text-color);
-    border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
-    cursor: pointer; transition: all 0.2s ease;
-    display: flex; align-items: center; gap: 0.8em;
+    opacity: 0; transform: translateY(20px);
+    width: 100%; padding: 1.1em; font-size: 0.95rem; text-align: left;
+    background: var(--bg-dark); color: var(--text-light);
+    border: none; border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
+    display: flex; align-items: center; gap: 0.8em; font-weight: 500;
+    animation: slideInUp 0.5s ease-out forwards;
 }
-.choice-btn:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.4); }
+@keyframes slideInUp { to { opacity: 1; transform: translateY(0); } }
+.choice-btn:hover { background-color: #374151; }
 
 /* --- 結果画面 --- */
 .ending-emoji { font-size: 4rem; margin-bottom: 0.2em; display: block; }
-.ending-title { font-size: 1.8rem; margin-bottom: 0.5em; }
-.ending-description { font-size: 1rem; line-height: 1.7; margin-bottom: 2em; color: var(--text-muted-color); }
+.ending-title { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5em; }
+.ending-description { font-size: 1rem; line-height: 1.7; margin-bottom: 2em; color: var(--text-muted); }
 .final-advice {
-    background: rgba(0,0,0,0.2); padding: 1.5em;
-    border-radius: var(--border-radius); text-align: center; margin-bottom: 2em;
+    background: var(--bg-dark); padding: 1.5em; border-radius: var(--border-radius);
+    text-align: center; margin-bottom: 2em;
 }
-.advice-title { font-weight: 700; margin: 0 0 0.8em 0; opacity: 0.8; }
+.advice-title { font-weight: 800; margin: 0 0 0.8em 0; color: var(--accent-male); }
+#analysis-type { font-weight: 800; }
 #advice-text { margin: 0; line-height: 1.7; font-weight: 500; }
-#retry-btn { background-color: #64748b; }
+#retry-btn { background-color: #4b5563; }
