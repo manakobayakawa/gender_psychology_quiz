@@ -37,18 +37,39 @@
         </div>
 
         <div id="game-screen" class="screen">
-            <div class="status-bar">
+            <div id="feedback-container"></div>
+            
+            <div class="status-header">
                 <span id="character-name"></span>
-                <div class="meters">
-                    <div class="meter" id="love-meter">❤️ <span id="love-meter-value">50</span></div>
-                    <div class="meter" id="style-meter">⚡️ <span id="style-meter-value">0</span></div>
-                    <div class="meter" id="trust-meter">💎 <span id="trust-meter-value">0</span></div>
+                <button id="help-btn" class="help-btn">？</button>
+            </div>
+
+            <div class="meters-container">
+                <div class="meter-group">
+                    <div class="meter-label">
+                        <span>好感度 ❤️</span>
+                        <span id="love-meter-value">50</span>
+                    </div>
+                    <div class="progress-bar"><div id="love-progress" class="progress-fill"></div></div>
+                </div>
+                <div class="meter-group">
+                    <div class="meter-label">
+                        <span>主導権 ⚡️</span>
+                        <span id="style-meter-value">0</span>
+                    </div>
+                    <div class="progress-bar"><div id="style-progress" class="progress-fill"></div></div>
+                </div>
+                <div class="meter-group">
+                    <div class="meter-label">
+                        <span>信頼度 💎</span>
+                        <span id="trust-meter-value">0</span>
+                    </div>
+                    <div class="progress-bar"><div id="trust-progress" class="progress-fill"></div></div>
                 </div>
             </div>
+
             <div class="message-window">
-                <div class="message-header">
-                    <span id="scenario-act"></span>
-                </div>
+                <div class="message-header"><span id="scenario-act"></span></div>
                 <p id="scenario-text"></p>
             </div>
             <div id="choices-container"></div>
@@ -59,14 +80,32 @@
             <h2 id="ending-title" class="ending-title"></h2>
             <p id="ending-description" class="ending-description"></p>
             <div class="final-advice">
-                <p class="advice-title">
-                    <span id="analysis-type"></span>タイプ分析
-                </p>
+                <p class="advice-title"><span id="analysis-type"></span>タイプ分析</p>
                 <p id="advice-text"></p>
             </div>
             <button id="retry-btn" class="start-btn">もう一度挑戦する</button>
         </div>
     </div>
+    
+    <div id="help-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <h3>パラメータ説明</h3>
+            <div class="param-desc">
+                <h4>好感度 ❤️</h4>
+                <p>相手があなたに抱く恋愛的な魅力です。高いほど、相手はあなたに惹かれています。</p>
+            </div>
+            <div class="param-desc">
+                <h4>主導権 ⚡️</h4>
+                <p>関係性をリードする積極性です。プラスだと積極的、マイナスだと協調的なスタイルを示します。</p>
+            </div>
+            <div class="param-desc">
+                <h4>信頼度 💎</h4>
+                <p>相手があなたに心を開ける度合いです。誠実な対応で上昇し、関係の安定に繋がります。</p>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
