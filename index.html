@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tokyo Love Scenarios 2.0</title>
+    <title>男心 & 女心クイズ</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background-image"></div>
+    <div class="background-overlay"></div>
     <div class="game-container">
         <div id="start-screen" class="screen active">
-            <h1 class="title">Tokyo Love Scenarios</h1>
-            <p class="description">あなたの選択が、二人の未来を変える。</p>
+            <h1 class="title">男心 & 女心クイズ</h1>
+            <p class="description">その選択が、二人の未来を決める。</p>
             <div id="setup-form">
                 <div class="input-group">
                     <label for="player-name">あなたの名前</label>
@@ -31,7 +31,7 @@
                         <div class="gender-option" data-gender="female">女性</div>
                     </div>
                 </div>
-                <button id="start-game-btn" class="start-btn">ストーリーを始める</button>
+                <button id="start-game-btn" class="start-btn">クイズを始める</button>
                 <p id="error-message" class="error-message"></p>
             </div>
         </div>
@@ -42,12 +42,12 @@
                 <div class="meters">
                     <div class="meter" id="love-meter">❤️ <span id="love-meter-value">50</span></div>
                     <div class="meter" id="style-meter">⚡️ <span id="style-meter-value">0</span></div>
+                    <div class="meter" id="trust-meter">💎 <span id="trust-meter-value">0</span></div>
                 </div>
             </div>
             <div class="message-window">
                 <div class="message-header">
-                    <span id="scenario-emoji">💬</span>
-                    <span id="scenario-chapter"></span>
+                    <span id="scenario-act"></span>
                 </div>
                 <p id="scenario-text"></p>
             </div>
@@ -59,10 +59,12 @@
             <h2 id="ending-title" class="ending-title"></h2>
             <p id="ending-description" class="ending-description"></p>
             <div class="final-advice">
-                <p class="advice-title">💌 あなたへの一言アドバイス</p>
+                <p class="advice-title">
+                    <span id="analysis-type"></span>タイプ分析
+                </p>
                 <p id="advice-text"></p>
             </div>
-            <button id="retry-btn" class="start-btn">もう一度最初から</button>
+            <button id="retry-btn" class="start-btn">もう一度挑戦する</button>
         </div>
     </div>
     <script src="script.js"></script>
